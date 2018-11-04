@@ -356,28 +356,35 @@ class Timeseries_1D_Periodic_Signal(Timeseries_1D):
         return Timeseries_1D(error)
 
 
-class Data_1D_List(list):
+class Timeseries_1D_Periodic_Signal_List(list):
     def __init__(self, *args):
         list.__init__(self, *args)
         self.x = [i.x for i in self]
 
     def moving_average(self, window_size):
-        return [a.moving_average(window_size=window_size, caption=str(a.caption) + 'mov. avg.') for a in self]
+        return Timeseries_1D_Periodic_Signal_List([i.moving_average(window_size=window_size) for i in self])
 
     def phase_average(self, phase_length):
-        return [a.phase_average(caption=a.caption, phase_length=phase_length) for a in self]
+        return Timeseries_1D_Periodic_Signal_List([i.phase_average(phase_length=phase_length) for i in self])
 
-    def autocorrelation(self):
-        return [a.autocorrelation(caption=a.caption) for a in self]
+    def sinus_fit(self,p0):
+        return Timeseries_1D_Periodic_Signal_List([i.sinus_fit(p0)[1] for i in self])
+
+    def plot(self):
+        subplots = self[0].plot()
+        for i in self[1:]:
+            i.add_to_plot(subplots)
+        return subplots
+
+
+
+
+
+    #def autocorrelation(self):
+     #   return [i.acf() for a in self]
 
     def psd(self):
-        return [a.psd(caption=a.caption) for a in self]
-
-    def mean(self):
-        return [i.mean() for i in self]
-
-    def increment(self, shift):
-        return [i.increment(shift) for i in self]
+        return [i.psd() for i in self]
 
 # class FFT():
 #     '''

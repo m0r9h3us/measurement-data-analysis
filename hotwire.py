@@ -1,7 +1,7 @@
 from helping_classes import Filename, Folder
 from data import *
 import copy
-
+import pickle
 
 class Hotwire_Data_Reader():
     '''
@@ -139,16 +139,20 @@ class Hotwire_Data(object):
 
 class Hotwire_Data_List(list):
     def __init__(self, *args, **kwargs):
+        '''
+        Load and Save multiple data files and operate on the data
+        :param args:
+        :param kwargs:
+        '''
         self.delimiter = kwargs.pop('delimiter', 'angle')
-        self.base_class = Hotwire_Data  # could be LCA or something else for
         list.__init__(self, *args)
 
-    def load_from_filenames(self, filename_list, mode, active_probe=1):
+    def load_from_filenames(self, filename_list, mode="single_hotwire_measurement", active_probe=1):
         for f in filename_list:
-            self.append(self.base_class(f, mode=mode, active_probe=active_probe))
+            self.append(Hotwire_Data(f, mode=mode, active_probe=active_probe))
         return self
 
-    def load_from_folder(self, folder, mode, active_probe=1):
+    def load_from_folder(self, folder, mode="single_hotwire_measurement", active_probe=1):
         filename_list = Folder(folder).files(absolute=True)
         print 'loading %s files from %s' % (len(filename_list), folder)
         result = self.load_from_filenames(filename_list, mode=mode, active_probe=active_probe)
@@ -163,28 +167,26 @@ class Hotwire_Data_List(list):
         pickle.dump(self, open(filename, "wb"))
 
     def aoa(self, y_correction=0, **kwargs):
-        return Hotwire_Data_List([i.aoa(correction_factor=y_correction, label=i.label) for i in self])
+        return Timeseries_1D_Periodic_Signal_List([i.aoa() for i in self])
 
     def vx(self):
-        return Hotwire_Data_List([i.vx(label=i.label) for i in self])
+        return Timeseries_1D_Periodic_Signal_List([i.vx for i in self])
 
     def vy(self):
-        return Hotwire_Data_List([i.vy(label=i.label) for i in self])
+        return Timeseries_1D_Periodic_Signal_List([i.vy for i in self])
 
     def v(self, y_correction=0):
-        return Hotwire_Data_List([i.v(correction_factor=y_correction, label=i.label) for i in self])
+        return Timeseries_1D_Periodic_Signal_List([i.v() for i in self])
 
-    def fits(self):
-        return Hotwire_Data_List([Fit(a) for a in self.aoa()])
 
-    def fit_params(self):
-        return Hotwire_Data_List([f.fit_params[0][0] for f in self.fits()])
-
-    def fit_results(self):
-        return Hotwire_Data_List([f.fit() for f in self.fits()])
-
-    def psd(self):
-        return Hotwire_Data_List([i.psd(label=eval('i.' + self.delimiter)) for i in self.aoa()])
-
-    def autocorrelation(self):
-        return Hotwire_Data_List([i.autocorrelation(label=eval('i.' + self.delimiter)) for i in self.aoa()])
+    # def fit_params(self):
+    #     return Hotwire_Data_List([f.fit_params[0][0] for f in self.fits()])
+    #
+    # def fit_results(self):
+    #     return Hotwire_Data_List([f.fit() for f in self.fits()])
+    #
+    # def psd(self):
+    #     return Hotwire_Data_List([i.psd(label=eval('i.' + self.delimiter)) for i in self.aoa()])
+    #
+    # def autocorrelation(self):
+    #     return Hotwire_Data_List([i.autocorrelation(label=eval('i.' + self.delimiter)) for i in self.aoa()])

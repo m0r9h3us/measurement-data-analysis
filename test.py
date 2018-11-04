@@ -19,9 +19,9 @@ caption2 = {'xlabel': 't / s',
 # e= Timeseries_1D_Periodic_Signal(0.5*np.arange(10), x=np.arange(10), caption=caption2, sampling_frequency=20000).add_to_plot(d, args=['ro-'])
 
 # Test hotwire.py and basic plotting
-hot = Hotwire_Data(filename=path + "4Hz_5deg_30ms_pos1_posx0_posy0_posz0.txt")
+# hot = Hotwire_Data(filename=path + "4Hz_5deg_30ms_pos1_posx0_posy0_posz0.txt")
 
-AOA = hot.aoa()  # ok
+# AOA = hot.aoa()  # ok
 # AOA.plot()
 # V = hot.v().plot() # ok
 # Vx = hot.vx.plot() # ok
@@ -37,10 +37,22 @@ AOA = hot.aoa()  # ok
 # PHA = AOA.phase_average(HOT.sampling_frequency / HOT.frequency) # ok
 # PHA.plot() # ok
 #
-#FFT = AOA.fft() #ok
-#FFT.plot() #ok
+# FFT = AOA.fft() #ok
+# FFT.plot() #ok
 
 # Test Fitting
-p = AOA.moving_average(window_size=1000).plot()
-AOA.sinus_fit(p0=[hot.angle, hot.frequency,0])[1].add_to_plot(p)
+# p = AOA.moving_average(window_size=1000).plot()
+# AOA.sinus_fit(p0=[hot.angle, hot.frequency,0])[1].add_to_plot(p)
 
+# --------------------------------------------------------------------------------------------------------------------
+### Test Hotwire_Data_List
+
+# # Load from folder and save as pickle
+# Data = Hotwire_Data_List().load_from_folder(path)
+# Data.pickle(path+"Test_Data.pickle")
+
+# Load from pickle
+Data = Hotwire_Data_List().load_from_pickle(path+"Test_Data.pickle")
+Data_AOA = Data.aoa()
+Data_AOA_MOV= Data_AOA.moving_average(window_size=1000)
+Data_AOA_MOV.plot()
