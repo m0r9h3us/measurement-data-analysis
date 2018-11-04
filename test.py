@@ -55,4 +55,4 @@ caption2 = {'xlabel': 't / s',
 Data = Hotwire_Data_List().load_from_pickle(path+"Test_Data.pickle")
 Data_AOA = Data.aoa()
 Data_AOA_MOV= Data_AOA.moving_average(window_size=1000)
-Data_AOA_MOV.plot()
+multiplot = Data_AOA_MOV.plot()

@@ -116,7 +116,7 @@ class Data_1D(np.ndarray):
         split_array = np.array(np.split(data, nb_of_chunks))
         return split_array
 
-    def plot(self, args=['b-'], plotpath=None, filename=None, subplots=None, **kwargs):
+    def plot(self, args=['-'], plotpath=None, filename=None, subplots=None, **kwargs):
         '''
         Make plotting possible, without the need but the possibility to configure everything manually
         :param args: list - List of arguments passed directly to the plot function
@@ -159,10 +159,9 @@ class Data_1D(np.ndarray):
         # for file_format in fileformats:
         #    fig.savefig(plotpath + self.caption['legend'], dpi=100)
         plt.show()
-
         return (fig, ax)
 
-    def add_to_plot(self, subplots, args=['r-'], **kwargs):
+    def add_to_plot(self, subplots, args=['-'], **kwargs):
         '''
         Takes an existing and adds new content
         :param subplots: tuple (fig,ax)
