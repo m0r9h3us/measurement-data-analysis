@@ -95,7 +95,7 @@ class Hotwire_Data(object):
     @property
     def vx(self):
         caption = self.caption.copy()
-        caption['ylabel'] = 'AOA'
+        caption['ylabel'] = 'vx'
         return Timeseries_1D_Periodic_Signal(self._vx, x=self.t, caption=caption, sampling_frequency=1. / self.dt)
 
     @vx.setter
@@ -105,7 +105,7 @@ class Hotwire_Data(object):
     @property
     def vy(self):
         caption = self.caption.copy()
-        caption['ylabel'] = 'AOA'
+        caption['ylabel'] = 'vy'
         return Timeseries_1D_Periodic_Signal(self._vy, x=self.t, caption=caption, sampling_frequency=1. / self.dt)
 
     @vy.setter

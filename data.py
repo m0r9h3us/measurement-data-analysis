@@ -53,30 +53,29 @@ class Data_1D(np.ndarray):
         else:
             self._x = value
 
-    #
-    # @property
-    # def x_error(self):
-    #     return self._x_error
-    #
-    # @x_error.setter
-    # def x_error(self, value):
-    #     if not value.size == self.size:
-    #         raise ValueError(
-    #             'Array size does not fit! Size of Data is %s and size of xerrir is %s' % (value.size, self.size))
-    #     else:
-    #         self._x_error = value
-    #
-    # @property
-    # def y_error(self):
-    #     return self._y_error
-    #
-    # @y_error.setter
-    # def x(self, value):
-    #     if not value.size == self.size:
-    #         raise ValueError(
-    #             'Array size does not fit! Size of Data is %s and size of y_error is %s' % (value.size, self.size))
-    #     else:
-    #         self._y_error = value
+    @property
+    def x_error(self):
+        return self._x_error
+
+    @x_error.setter
+    def x_error(self, value):
+        if not value.size == self.size:
+            raise ValueError(
+                'Array size does not fit! Size of Data is %s and size of xerror is %s' % (value.size, self.size))
+        else:
+            self._x_error = value
+
+    @property
+    def y_error(self):
+        return self._y_error
+
+    @y_error.setter
+    def y_error(self, value):
+        if not value.size == self.size:
+            raise ValueError(
+                'Array size does not fit! Size of Data is %s and size of y_error is %s' % (value.size, self.size))
+        else:
+            self._y_error = value
 
     def moving_average(self, window_size):
         window = np.ones(int(window_size)) / int(window_size)
@@ -153,6 +152,7 @@ class Data_1D(np.ndarray):
         ax.set_title(title)
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
+        ax.set_xlim((10,11))
         ax.grid()
         ax.legend(loc='best', fancybox=True)
 
